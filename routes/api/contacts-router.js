@@ -8,20 +8,20 @@ const contactsRouter = express.Router();
 
 contactsRouter.get('/', contactsController.getListContacts);
 
-contactsRouter.get('/:id', contactsController.getContactById);
+// contactsRouter.get('/:id', contactsController.getContactById);
 
-contactsRouter.post(
-  '/',
-  contactValidation.addContactValidate,
-  contactsController.addContact
-);
+// contactsRouter.post(
+//   '/',
+//   contactValidation.addContactValidate,
+//   contactsController.addContact
+// );
 
-contactsRouter.delete('/:id', contactsController.removeContact);
+// contactsRouter.delete('/:id', contactsController.removeContact);
 
-contactsRouter.put(
-  '/:id',
-  contactValidation.addContactValidate,
-  contactsController.updateContact
-);
+// contactsRouter.put(
+//   '/:id',
+//   contactValidation.addContactValidate,
+//   contactsController.updateContact
+// );
 
 export default contactsRouter;
