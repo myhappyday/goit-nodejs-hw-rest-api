@@ -45,12 +45,6 @@ export const userSignupSchema = Joi.object({
     'string.min': 'Password must be at least {#limit} characters long',
   }),
   subscription: Joi.string().valid(...subscriptionList),
-  // .required()
-  // .messages({
-  //   'any.required': 'Missing required subscription field',
-  //   'any.only':
-  //     'Invalid subscription type. Valid values are "starter", "pro", or "business".',
-  // }),
 });
 
 export const userSigninSchema = Joi.object({
