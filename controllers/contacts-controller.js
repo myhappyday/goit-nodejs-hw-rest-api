@@ -30,7 +30,7 @@ const removeContact = async (req, res) => {
     throw HttpError(404, 'Not found');
   }
   res.json({
-    message: 'contact deleted',
+    message: 'Contact deleted',
   });
 };
 

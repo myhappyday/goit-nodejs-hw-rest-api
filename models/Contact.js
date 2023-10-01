@@ -40,7 +40,7 @@ contactSchema.post('findOneAndUpdate', handleSaveError);
 
 export const contactAddSchema = Joi.object({
   name: Joi.string().min(3).max(30).required().messages({
-    'any.required': 'missing required name field',
+    'any.required': 'Missing required name field',
   }),
   email: Joi.string()
     .email({
@@ -49,10 +49,10 @@ export const contactAddSchema = Joi.object({
     })
     .required()
     .messages({
-      'any.required': 'missing required email field',
+      'any.required': 'Missing required email field',
     }),
   phone: Joi.string().min(6).max(20).pattern(phoneRegexp).required().messages({
-    'any.required': 'missing required phone field',
+    'any.required': 'Missing required phone field',
     'string.pattern.base':
       'Invalid phone format. The phone number should be in the format: (000) 000-0000.',
   }),
@@ -61,7 +61,7 @@ export const contactAddSchema = Joi.object({
 
 export const contactUpdateFavoriteSchema = Joi.object({
   favorite: Joi.boolean().required().messages({
-    'any.required': 'missing required favorite field',
+    'any.required': 'Missing required favorite field',
   }),
 });
 
