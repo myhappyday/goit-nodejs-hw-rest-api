@@ -9,7 +9,7 @@ import { ctrlWrapper } from '../decorators/index.js';
 
 const { JWT_SECRET } = process.env;
 
-const signup = async (req, res) => {
+const register = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (user) {
@@ -27,7 +27,7 @@ const signup = async (req, res) => {
   });
 };
 
-const signin = async (req, res) => {
+const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
@@ -38,12 +38,13 @@ const signin = async (req, res) => {
   if (!passwordCompare) {
     throw HttpError(401, 'Email or password is wrong');
   }
-
+  const { _id: id } = user;
   const payload = {
-    id: user._id,
+    id,
   };
 
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '23h' });
+  await User.findByIdAndUpdate(id, { token });
 
   res.json({
     token,
@@ -54,7 +55,24 @@ const signin = async (req, res) => {
   });
 };
 
+const getCurrent = (req, res) => {
+  const { email, subscription } = req.user;
+
+  res.json({
+    email,
+    subscription,
+  });
+};
+
+const logout = async (req, res) => {
+  const { _id } = req.user;
+  await User.findByIdAndUpdate(_id, { token: '' });
+  res.sendStatus(204);
+};
+
 export default {
-  signup: ctrlWrapper(signup),
-  signin: ctrlWrapper(signin),
+  register: ctrlWrapper(register),
+  login: ctrlWrapper(login),
+  getCurrent: ctrlWrapper(getCurrent),
+  logout: ctrlWrapper(logout),
 };
