@@ -26,6 +26,7 @@ const userSchema = new Schema(
     },
     token: {
       type: String,
+      default: '',
     },
   },
   { versionKey: false, timestamps: true }
@@ -37,7 +38,7 @@ userSchema.pre('findOneAndUpdate', runValidateAtUpdate);
 
 userSchema.post('findOneAndUpdate', handleSaveError);
 
-export const userSignupSchema = Joi.object({
+export const userRegisterSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required().messages({
     'any.required': 'Missing required email field',
     'string.pattern.base': 'Invalid email format',
@@ -49,7 +50,7 @@ export const userSignupSchema = Joi.object({
   subscription: Joi.string().valid(...subscriptionList),
 });
 
-export const userSigninSchema = Joi.object({
+export const userLoginSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required().messages({
     'any.required': 'Missing required email field',
     'string.pattern.base': 'Invalid email format',
@@ -58,6 +59,10 @@ export const userSigninSchema = Joi.object({
     'any.required': 'Missing required password field',
     'string.min': 'Password must be at least {#limit} characters long',
   }),
+});
+
+export const subscriptionSchema = Joi.object({
+  subscription: Joi.string().valid(...subscriptionList),
 });
 
 const User = model('user', userSchema);

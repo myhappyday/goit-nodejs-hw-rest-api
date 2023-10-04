@@ -64,6 +64,19 @@ const getCurrent = (req, res) => {
   });
 };
 
+const updateSubscription = async (req, res) => {
+  const { _id } = req.user;
+  const { subscription } = req.body;
+  const result = await User.findByIdAndUpdate(
+    _id,
+    { subscription },
+    { new: true, select: '-_id email subscription' }
+  );
+
+  if (!result) throw HttpError(404, 'Not Found');
+  res.json(result);
+};
+
 const logout = async (req, res) => {
   const { _id } = req.user;
   await User.findByIdAndUpdate(_id, { token: '' });
@@ -74,5 +87,6 @@ export default {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   getCurrent: ctrlWrapper(getCurrent),
+  updateSubscription: ctrlWrapper(updateSubscription),
   logout: ctrlWrapper(logout),
 };

@@ -10,14 +10,22 @@ import { authenticate } from '../../middlewares/index.js';
 
 const authRouter = express.Router();
 
-const userSignupValidate = validateBody(userSchemas.userSignupSchema);
-const userSigninValidate = validateBody(userSchemas.userSigninSchema);
+const userRegisterValidate = validateBody(userSchemas.userRegisterSchema);
+const userLoginValidate = validateBody(userSchemas.userLoginSchema);
+const subscriptionValidate = validateBody(userSchemas.subscriptionSchema);
 
-authRouter.post('/register', userSignupValidate, authController.register);
+authRouter.post('/register', userRegisterValidate, authController.register);
 
-authRouter.post('/login', userSigninValidate, authController.login);
+authRouter.post('/login', userLoginValidate, authController.login);
 
 authRouter.get('/current', authenticate, authController.getCurrent);
+
+authRouter.patch(
+  '/',
+  authenticate,
+  subscriptionValidate,
+  authController.updateSubscription
+);
 
 authRouter.post('/logout', authenticate, authController.logout);
 
