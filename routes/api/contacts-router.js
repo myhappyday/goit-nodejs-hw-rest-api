@@ -8,6 +8,7 @@ import { validateBody } from '../../decorators/index.js';
 
 import {
   authenticate,
+  upload,
   isValidId,
   validateFavoriteStatus,
 } from '../../middlewares/index.js';
@@ -25,7 +26,12 @@ contactsRouter.get('/', contactsController.getListContacts);
 
 contactsRouter.get('/:id', isValidId, contactsController.getContactById);
 
-contactsRouter.post('/', contactAddValidate, contactsController.addContact);
+contactsRouter.post(
+  '/',
+  // upload.single('avatar'),
+  contactAddValidate,
+  contactsController.addContact
+);
 
 contactsRouter.delete('/:id', isValidId, contactsController.removeContact);
 
