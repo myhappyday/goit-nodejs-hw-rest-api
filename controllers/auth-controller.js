@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import fs from 'fs/promises';
 import path from 'path';
 import gravatar from 'gravatar';
+import Jimp from 'jimp';
 
 import User from '../models/User.js';
 
@@ -22,7 +23,7 @@ const register = async (req, res) => {
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
-  const avatarURL = gravatar.url(email);
+  const avatarURL = gravatar.url(email, { s: '200', r: 'g', d: 'mp' });
 
   const newUser = await User.create({
     ...req.body,
@@ -87,6 +88,24 @@ const updateSubscription = async (req, res) => {
   res.json(result);
 };
 
+const updateAvatar = async (req, res) => {
+  const { _id: id } = req.user;
+  const { path: tempUpload, originalname } = req.file;
+
+  const avatar = await Jimp.read(tempUpload);
+  await avatar.resize(250, 250).writeAsync(tempUpload);
+  if (!avatar) throw HttpError(500, 'Failed to update avatar');
+
+  const filename = `${id}_${originalname}`;
+  const resultUpload = path.join(avatarsPath, filename);
+  await fs.rename(tempUpload, resultUpload);
+  const avatarURL = path.join('avatars', filename);
+
+  await User.findByIdAndUpdate(id, { avatarURL });
+
+  res.json({ avatarURL });
+};
+
 const logout = async (req, res) => {
   const { _id } = req.user;
   await User.findByIdAndUpdate(_id, { token: '' });
@@ -98,5 +117,6 @@ export default {
   login: ctrlWrapper(login),
   getCurrent: ctrlWrapper(getCurrent),
   updateSubscription: ctrlWrapper(updateSubscription),
+  updateAvatar: ctrlWrapper(updateAvatar),
   logout: ctrlWrapper(logout),
 };

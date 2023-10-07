@@ -30,14 +30,6 @@ const getContactById = async (req, res) => {
 
 const addContact = async (req, res) => {
   const { _id: owner } = req.user;
-
-  // console.log('req.body: ', req.body);
-  // console.log('req.file: ', req.file);
-  // const { path: oldPath, filename } = req.file;
-  // const newPath = path.join(avatarsPath, filename);
-  // await fs.rename(oldPath, newPath);
-  // const avatarURL = path.join('public', 'avatars', filename);
-  // const result = await Contact.create({ ...req.body, avatarURL, owner });
   const result = await Contact.create({ ...req.body, owner });
   res.status(201).json(result);
 };
