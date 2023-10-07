@@ -6,7 +6,7 @@ import * as userSchemas from '../../models/User.js';
 
 import { validateBody } from '../../decorators/index.js';
 
-import { authenticate } from '../../middlewares/index.js';
+import { authenticate, upload } from '../../middlewares/index.js';
 
 const authRouter = express.Router();
 

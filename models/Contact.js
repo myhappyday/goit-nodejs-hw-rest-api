@@ -33,10 +33,6 @@ const contactSchema = new Schema(
       ref: 'user',
       required: true,
     },
-    // avatar: {
-    //   type: String,
-    //   required: true,
-    // },
   },
   { versionKey: false, timestamps: true }
 );
