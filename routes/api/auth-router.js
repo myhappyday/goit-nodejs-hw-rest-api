@@ -13,8 +13,13 @@ const authRouter = express.Router();
 const userRegisterValidate = validateBody(userSchemas.userRegisterSchema);
 const userLoginValidate = validateBody(userSchemas.userLoginSchema);
 const subscriptionValidate = validateBody(userSchemas.subscriptionSchema);
+const userEmailValidate = validateBody(userSchemas.userEmailSchema);
 
 authRouter.post('/register', userRegisterValidate, authController.register);
+
+authRouter.get('/verify/:verificationToken', authController.verify);
+
+authRouter.post('/verify', userEmailValidate, authController.resendVerifyEmail);
 
 authRouter.post('/login', userLoginValidate, authController.login);
 
