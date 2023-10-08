@@ -16,6 +16,8 @@ const subscriptionValidate = validateBody(userSchemas.subscriptionSchema);
 
 authRouter.post('/register', userRegisterValidate, authController.register);
 
+authRouter.get('/verify/:verificationToken', authController.verify);
+
 authRouter.post('/login', userLoginValidate, authController.login);
 
 authRouter.get('/current', authenticate, authController.getCurrent);
